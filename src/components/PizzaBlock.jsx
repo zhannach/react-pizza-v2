@@ -4,7 +4,7 @@ function PizzaBlock({title, price, imageUrl, sizes, types}) {
   // const [pizzaCount, setPizzaCount] = useState(0)
   const [activeType, setActiveType] = useState(0)
   const [activeSize, setActiveSize] = useState(0)
-  const typeNames = ['тонкое', 'традиционное']
+  const typeNames = ['thin dough', 'tradition']
   
   // const onClickAdd = () => {
   //   setPizzaCount(pizzaCount + 1)
@@ -20,12 +20,22 @@ function PizzaBlock({title, price, imageUrl, sizes, types}) {
       <div class="pizza-block__selector">
         <ul>
           {types.map((typeId) => (
-            <li onClick={() => setActiveType(typeId)} className={activeType === typeId? 'active' : ''}>{typeNames[typeId]}</li>
+            <li 
+            key={typeId}
+            onClick={() => setActiveType(typeId)} 
+            className={activeType === typeId? 'active' : ''}>
+              {typeNames[typeId]}
+              </li>
           ))}
         </ul>
         <ul>
            {sizes.map((size, id) => (
-           <li onClick={() => setActiveSize(id)} className={activeSize === id? 'active' : ''}>{size}cм.</li>
+           <li 
+           key={size}
+           onClick={() => setActiveSize(id)} 
+           className={activeSize === id? 'active' : ''}>
+            {size}cм.
+            </li>
            ))}
         </ul>
       </div>
@@ -45,7 +55,7 @@ function PizzaBlock({title, price, imageUrl, sizes, types}) {
               fill="white"
             />
           </svg>
-          <span>Добавить</span>
+          <span>Add</span>
           <i>0</i>
         </button>
       </div>
