@@ -1,0 +1,10 @@
+.root {
+  text-align: center;
+  height: 350px;
+  max-width: 750px;
+  margin: 0 auto;
+}
+.text {
+  font-size: 18px;
+  margin-top: 15px;
+}
