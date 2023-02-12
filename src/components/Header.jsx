@@ -1,8 +1,8 @@
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import Search from './Search/index'
 
 
-function Header({searchValue, setSearchValue}) {
+function Header() {
   return (
     <div class="header">
       <div class="container">
@@ -15,7 +15,7 @@ function Header({searchValue, setSearchValue}) {
           </div>
         </div>
         </Link>
-        <Search searchValue={searchValue} setSearchValue={setSearchValue}/>
+        <Search />
         <div class="header__cart">
           <Link to="/cart" class="button button--cart">
             <span>520 </span>
