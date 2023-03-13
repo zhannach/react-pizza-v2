@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
 import qs from "qs";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import Sort, { list } from "../components/Sort";
@@ -23,8 +23,13 @@ export default function Home() {
 
   const { searchValue } = useContext(SearchContext);
   const [items, setItems] = useState([]);
-  console.log(sort);
-  const pizzas = items.map((obj) => <PizzaBlock key={obj.id} {...obj} />);
+  const pizzas = items.map((obj) => {
+    return (
+      <Link to={`pizza/${obj.id}`} key={obj.id} >
+        <PizzaBlock {...obj} />
+      </Link>
+    );
+  });
 
   const fetchPizzas = () => {
     const order = sort.sortProperty.includes("-") ? "asc" : "desc";
@@ -49,7 +54,7 @@ export default function Home() {
       });
       navigate(`?${queryString}`);
     }
-    isMounted.current = true
+    isMounted.current = true;
   }, [categoryId, sort, searchValue]);
 
   useEffect(() => {
@@ -60,7 +65,7 @@ export default function Home() {
       dispatch(
         setFilters({
           ...params,
-          sort
+          sort,
         })
       );
       isSearch.current = true;

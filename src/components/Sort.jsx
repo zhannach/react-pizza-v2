@@ -14,9 +14,9 @@ import { setSort } from "../redux/slices/filterSlice";
 
 function Sort() {
   const dispatch = useDispatch();
-  const sort = useSelector((state) => state.filter.sort);
+  const sort  = useSelector((state) => state.filter.sort);
+  console.log(sort)
   const [open, setOpen] = useState(false);
-
 
   const onClickListItem = (obj) => {
     dispatch(setSort(obj));

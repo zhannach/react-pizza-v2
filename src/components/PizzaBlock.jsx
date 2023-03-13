@@ -10,14 +10,14 @@ function PizzaBlock({name, price, imageUrl, sizes, types}) {
   //   setPizzaCount(pizzaCount + 1)
   // }
   return (
-    <div class="pizza-block">
+    <div className="pizza-block">
       <img
-        class="pizza-block__image"
+        className="pizza-block__image"
         src={imageUrl}
         alt="Pizza"
       />
-      <h4 class="pizza-block__title">{name}</h4>
-      <div class="pizza-block__selector">
+      <h4 className="pizza-block__title">{name}</h4>
+      <div className="pizza-block__selector">
         <ul>
           {types.map((typeId) => (
             <li 
