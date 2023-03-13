@@ -1,21 +1,23 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-
+import { useParams, useNavigate } from "react-router-dom";
 
 const ItemInfo = () => {
   const [pizza, setPizza] = useState({});
   const { id } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchPizza = async () => {
-      await fetch(`https://63dea3ff9fa0d600600259c3.mockapi.io/items/${id}`)
-        .then((res) => res.json())
-        .then((pizza) => {
-          console.log(pizza);
-          setPizza(pizza);
-        });
-    };
-    fetchPizza();
+    fetch(`https://63dea3ff9fa0d600600259c3.mockapi.io/items/${id}`).then(
+      async (res) => {
+        if (res.status === 200) {
+          const data = await res.json();
+          setPizza(data);
+        } else {
+          alert("something went wrong");
+          navigate("/");
+        }
+      }
+    );
   }, []);
 
   if (!pizza) {
