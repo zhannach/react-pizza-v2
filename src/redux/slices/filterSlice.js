@@ -8,7 +8,7 @@ const initialState = {
   },
 };
 
-const filterSlice = createSlice({
+export const filterSlice = createSlice({
   name: "filter",
   initialState,
   reducers: {
@@ -19,7 +19,7 @@ const filterSlice = createSlice({
       state.sort = action.payload;
     },
     setFilters(state, action) {
-      state.sort = action.payload.sort;
+      
       state.categoryId = Number(action.payload.categoryId);
     }
   },

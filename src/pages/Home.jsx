@@ -15,7 +15,6 @@ export default function Home() {
   const isSearch = useRef(false);
   const isMounted = useRef(false);
   const { categoryId, sort } = useSelector((state) => state.filter);
-  console.log(categoryId, sort);
 
   const onChangeCategory = (id) => {
     dispatch(setCategoryId(id));
@@ -37,6 +36,7 @@ export default function Home() {
     const category = categoryId > 0 ? `category=${categoryId}` : "";
     const search = searchValue ? `&search=${searchValue}` : "";
 
+
     fetch(
       `https://63dea3ff9fa0d600600259c3.mockapi.io/items?${category}&sortBy=${sortBy}&order=${order}${search}`
     )
@@ -55,13 +55,12 @@ export default function Home() {
       navigate(`?${queryString}`);
     }
     isMounted.current = true;
-  }, [categoryId, sort, searchValue]);
+  }, [categoryId, searchValue]);
 
   useEffect(() => {
     if (window.location.search) {
       const params = qs.parse(window.location.search.substring(1));
       const sort = list.find((obj) => obj.sortProperty === params.sortProperty);
-      console.log(sort);
       dispatch(
         setFilters({
           ...params,
