@@ -4,7 +4,8 @@ import Search from "./Search/index";
 
 function Header() {
   const location = useLocation();
-  const { totalPrice, items} = useSelector((state) => state.cart)
+  const { totalPrice, items } = useSelector((state) => state.cart);
+  const totalCount = items.reduce((acc, item) => acc + item.count, 0);
   return (
     <div class="header">
       <div class="container">
@@ -52,7 +53,7 @@ function Header() {
                   strokeLinejoin="round"
                 />
               </svg>
-              <span>{items.length}</span>
+              <span>{totalCount}</span>
             </Link>
           )}
         </div>

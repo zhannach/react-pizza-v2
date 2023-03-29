@@ -4,7 +4,7 @@ import { addItem } from "../redux/slices/cartSlice";
 import { Link } from "react-router-dom";
 const typeNames = ["thin dough", "tradition"];
 
-function PizzaBlock({ id, title, name, price, imageUrl, sizes, types }) {
+function PizzaBlock({ id, name, price, imageUrl, sizes, types }) {
   const dispatch = useDispatch();
   const cartItem = useSelector((state) =>
     state.cart.items.find((obj) => obj.id === id)
@@ -16,18 +16,16 @@ function PizzaBlock({ id, title, name, price, imageUrl, sizes, types }) {
   const onclickAddBtn = () => {
     const item = {
       id,
-      title,
+      name,
       imageUrl,
       type: typeNames[activeType],
-      size: activeSize,
+      size: sizes[activeSize],
       price,
+      count: 0,
     };
     dispatch(addItem(item));
   };
-
-  // const onClickAdd = () => {
-  //   setPizzaCount(pizzaCount + 1)
-  // }
+  
   return (
     <div className="pizza-block">
       <Link to={`pizza/${id}`} key={id}>
