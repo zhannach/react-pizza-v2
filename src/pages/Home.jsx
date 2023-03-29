@@ -23,11 +23,7 @@ export default function Home() {
   const { searchValue } = useContext(SearchContext);
   const [items, setItems] = useState([]);
   const pizzas = items.map((obj) => {
-    return (
-      <Link to={`pizza/${obj.id}`} key={obj.id} >
-        <PizzaBlock {...obj} />
-      </Link>
-    );
+    return <PizzaBlock key={obj.id} {...obj} />;
   });
 
   const fetchPizzas = () => {
@@ -35,7 +31,6 @@ export default function Home() {
     const sortBy = sort.sortProperty.replace("-", "");
     const category = categoryId > 0 ? `category=${categoryId}` : "";
     const search = searchValue ? `&search=${searchValue}` : "";
-
 
     fetch(
       `https://63dea3ff9fa0d600600259c3.mockapi.io/items?${category}&sortBy=${sortBy}&order=${order}${search}`
