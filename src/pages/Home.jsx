@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useContext, useRef } from "react";
+import React, { useEffect, useContext, useRef } from "react";
 import qs from "qs";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import Sort, { list } from "../components/Sort";
@@ -8,6 +8,7 @@ import PizzaBlock from "../components/PizzaBlock";
 import Categories from "../components/Categories";
 import { SearchContext } from "../App";
 import { setCategoryId, setFilters } from "../redux/slices/filterSlice";
+import { fetchPizzas } from "../redux/slices/pizzasSlice";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -15,30 +16,31 @@ export default function Home() {
   const isSearch = useRef(false);
   const isMounted = useRef(false);
   const { categoryId, sort } = useSelector((state) => state.filter);
+  const { items, status } = useSelector((state) => state.pizzas);
 
   const onChangeCategory = (id) => {
     dispatch(setCategoryId(id));
   };
 
   const { searchValue } = useContext(SearchContext);
-  const [items, setItems] = useState([]);
   const pizzas = items.map((obj) => {
     return <PizzaBlock key={obj.id} {...obj} />;
   });
 
-  const fetchPizzas = () => {
+  const getPizzas = async () => {
     const order = sort.sortProperty.includes("-") ? "asc" : "desc";
     const sortBy = sort.sortProperty.replace("-", "");
     const category = categoryId > 0 ? `category=${categoryId}` : "";
     const search = searchValue ? `&search=${searchValue}` : "";
 
-    fetch(
-      `https://63dea3ff9fa0d600600259c3.mockapi.io/items?${category}&sortBy=${sortBy}&order=${order}${search}`
-    )
-      .then((res) => res.json())
-      .then((arr) => {
-        return setItems(arr);
-      });
+    dispatch(
+      fetchPizzas({
+        order,
+        sortBy,
+        category,
+        search,
+      })
+    );
   };
 
   useEffect(() => {
@@ -70,7 +72,7 @@ export default function Home() {
     window.scrollTo(0, 0);
 
     if (!isSearch.current) {
-      fetchPizzas();
+      getPizzas();
     }
 
     isSearch.current = false;
@@ -86,7 +88,16 @@ export default function Home() {
         <Sort />
       </div>
       <h2 className="content__title">All pizzas</h2>
-      <div className="content__items">{pizzas}</div>
+      {status === "error" ? (
+        <div className="content__error">
+          <h2>
+            Oops, something went wrong <span>😕</span>
+          </h2>
+          <p>Please, try again later</p>
+        </div>
+      ) : (
+        <div className="content__items">{pizzas}</div>
+      )}
     </>
   );
 }
