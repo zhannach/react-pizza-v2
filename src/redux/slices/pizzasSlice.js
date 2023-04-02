@@ -34,10 +34,11 @@ export const pizzasSlice = createSlice({
     },
     [fetchPizzas.rejected]: (state, action) => {
         state.status = 'error'
-        state.items = []
     },
   }
 });
+
+export const selectPizzasData = (state) => state.pizzas;
 
 export const { setItems } = pizzasSlice.actions;
 export default pizzasSlice.reducer;
