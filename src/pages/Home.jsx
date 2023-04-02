@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import qs from "qs";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -6,23 +6,25 @@ import { useDispatch, useSelector } from "react-redux";
 import Sort, { list } from "../components/Sort";
 import PizzaBlock from "../components/PizzaBlock";
 import Categories from "../components/Categories";
-import { SearchContext } from "../App";
-import { setCategoryId, setFilters } from "../redux/slices/filterSlice";
-import { fetchPizzas } from "../redux/slices/pizzasSlice";
+import {
+  selectFilter,
+  setCategoryId,
+  setFilters,
+} from "../redux/slices/filterSlice";
+import { fetchPizzas, selectPizzasData } from "../redux/slices/pizzasSlice";
 
 export default function Home() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isSearch = useRef(false);
   const isMounted = useRef(false);
-  const { categoryId, sort } = useSelector((state) => state.filter);
-  const { items, status } = useSelector((state) => state.pizzas);
+  const { categoryId, sort, searchValue } = useSelector(selectFilter);
+  console.log(searchValue)
+  const { items, status } = useSelector(selectPizzasData);
 
   const onChangeCategory = (id) => {
     dispatch(setCategoryId(id));
   };
-
-  const { searchValue } = useContext(SearchContext);
   const pizzas = items.map((obj) => {
     return <PizzaBlock key={obj.id} {...obj} />;
   });
@@ -88,7 +90,7 @@ export default function Home() {
         <Sort />
       </div>
       <h2 className="content__title">All pizzas</h2>
-      {status === "error" ? (
+      {status === "error" || items.length === 0 ? (
         <div className="content__error">
           <h2>
             Oops, something went wrong <span>😕</span>
