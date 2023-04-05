@@ -1,8 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
+type Pizza = {
+  imageUrl: string,
+  name: string,
+  description: string,
+  price: number,
+};
+
 const ItemInfo = () => {
-  const [pizza, setPizza] = useState({});
+  const [pizza, setPizza] = useState<Pizza>();
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -20,19 +27,21 @@ const ItemInfo = () => {
     );
   }, []);
 
-  if (!pizza) {
-    return "Loading...";
-  }
-
   return (
-    <div className="pizza">
-      <img className="pizza__img" src={pizza.imageUrl} alt=""></img>
-      <div className="pizza__info">
-        <h2 className="pizza__title">{pizza.name}</h2>
-        <p>Ingridients: {pizza.description}</p>
-        <h4 className="pizza__price">Price: {pizza.price} uah</h4>
-      </div>
-    </div>
+    <>
+      {pizza ? (
+        <div className="pizza">
+          <img className="pizza__img" src={pizza.imageUrl} alt=""></img>
+          <div className="pizza__info">
+            <h2 className="pizza__title">{pizza.name}</h2>
+            <p>Ingridients: {pizza.description}</p>
+            <h4 className="pizza__price">Price: {pizza.price} uah</h4>
+          </div>
+        </div>
+      ) : (
+        <p>Loading...</p>
+      )}
+    </>
   );
 };
 
