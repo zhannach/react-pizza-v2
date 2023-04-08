@@ -2,9 +2,11 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { addItem, minusItem, removeItem } from "../redux/slices/cartSlice";
 
-const CartItem = ({ id, name, type, size, count, price, imageUrl }) => {
+import { Pizza } from "../types/PizzaBlock";
+
+const CartItem = ({ id, name, type, size, count, price, imageUrl }: Pizza) => {
   const dispatch = useDispatch();
-  const onClickPlus = (id) => {
+  const onClickPlus = (id: string ) => {
     dispatch(
       addItem({
         id,

@@ -18,7 +18,7 @@ export default function Home() {
   const dispatch = useDispatch();
   const isSearch = useRef(false);
   const isMounted = useRef(false);
-  const { categoryId, sort, searchValue } = useSelector(selectFilter);
+  const { categoryId, sort, searchValue } = useSelector<>(selectFilter);
   console.log(searchValue)
   const { items, status } = useSelector(selectPizzasData);
 
