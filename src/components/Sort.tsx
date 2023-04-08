@@ -2,7 +2,12 @@ import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectFilterSort, setSort } from "../redux/slices/filterSlice";
 
-export const list = [
+type SortItem = {
+  name: string;
+  sortProperty: string;
+};
+
+export const list: SortItem[] = [
   { name: "most popular (desc)", sortProperty: "rating" },
   { name: "most popular (asc)", sortProperty: "-rating" },
   { name: "price (desc)", sortProperty: "price" },
@@ -14,18 +19,18 @@ export const list = [
 export default function Sort() {
   const dispatch = useDispatch();
   const sort = useSelector(selectFilterSort);
-  const sortRef = useRef();
+  const sortRef = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(false);
 
-  const onClickListItem = (obj) => {
+  const onClickListItem = (obj: SortItem) => {
     dispatch(setSort(obj));
     setOpen(open);
   };
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
+    const handleClickOutside = (event: Event) => {
       const path = event.composedPath();
-      if (!path.includes(sortRef.current)) {
+      if (!path.includes(sortRef.current as EventTarget)) {
         setOpen(open);
       }
     };
@@ -35,8 +40,8 @@ export default function Sort() {
   }, []);
 
   return (
-    <div class="sort" ref={sortRef}>
-      <div class="sort__label">
+    <div className="sort" ref={sortRef}>
+      <div className="sort__label">
         <svg
           width="10"
           height="6"
@@ -50,17 +55,19 @@ export default function Sort() {
           />
         </svg>
         <b>Sort by:</b>
-        <span onClick={() => setOpen(!open)}>{sort.name}</span>
+        <span onClick={() => setOpen(!open)}>{(sort as SortItem).name}</span>
       </div>
       {open && (
-        <div class="sort__popup">
+        <div className="sort__popup">
           <ul>
             {list.map((obj, id) => (
               <li
                 key={obj.name}
                 onClick={() => onClickListItem(obj)}
                 className={
-                  sort.sortProperty === obj.sortProperty ? "active" : ""
+                  (sort as SortItem).sortProperty === obj.sortProperty
+                    ? "active"
+                    : ""
                 }
               >
                 {obj.name}

@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addItem, selectCartById } from "../redux/slices/cartSlice";
 import { Link } from "react-router-dom";
+import { PizzaBlock } from "../types/PizzaBlock";
 const typeNames = ["thin dough", "tradition"];
 
-function PizzaBlock({ id, name, price, imageUrl, sizes, types }) {
+function PizzaBlock({ id, name, price, imageUrl, sizes, types }: PizzaBlock) {
   const dispatch = useDispatch();
   const cartItem = useSelector(selectCartById(id)
   );
@@ -55,11 +56,11 @@ function PizzaBlock({ id, name, price, imageUrl, sizes, types }) {
           ))}
         </ul>
       </div>
-      <div class="pizza-block__bottom">
-        <div class="pizza-block__price">${price}</div>
+      <div className="pizza-block__bottom">
+        <div className="pizza-block__price">${price}</div>
         <button
           onClick={() => onclickAddBtn()}
-          class="button button--outline button--add"
+          className="button button--outline button--add"
         >
           <svg
             width="12"
